@@ -1,0 +1,20 @@
+{
+  "name": "default",
+  "type": "postgres",
+  "host": "postgres-db",
+  "username": "guest",
+  "password": "guest",
+  "database": "link-shortener",
+  "port": 5432,
+  "logging": false,
+  "entities": [
+    "src/**/*.entity.ts"
+  ],
+  "migrations": [
+    "src/migrations/**/*.ts"
+  ],
+  "cli": {
+    "entitiesDir": "src",
+    "migrationsDir": "migrations"
+  }
+}
