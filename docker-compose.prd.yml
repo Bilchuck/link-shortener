@@ -12,7 +12,7 @@ services:
       - "traefik.http.routers.link-shortener-fe.rule=Host(`link-shortener.bilchuck.me`)"
       - "traefik.protocol=http"
       - "traefik.enable=true"
-      - traefik.http.services.link-shortener-fe.loadbalancer.server.port=4200
+      - traefik.http.services.link-shortener-fe.loadbalancer.server.port=80
 
   api-service:
     build: ./packages/api/
