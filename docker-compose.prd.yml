@@ -28,6 +28,7 @@ services:
       DB_MIGRATIONS_RUN: 'true'
     networks:
       - web
+      - internal
     labels:
       - "traefik.http.routers.link-shortener-api.rule=Host(`lnk.bilchuck.me`)"
       - "traefik.protocol=http"
@@ -38,6 +39,8 @@ services:
     image: postgres:12
     volumes:
       - link-shortener__postgres:/var/lib/postgresql
+    networks:
+      - internal
     environment:
       POSTGRES_USER: guest
       POSTGRES_PASSWORD: guest
@@ -47,5 +50,6 @@ volumes:
   link-shortener__postgres:
 
 networks:
+  internal:
   web:
     external: true
