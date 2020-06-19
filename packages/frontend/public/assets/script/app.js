@@ -2,11 +2,14 @@ const btnEl = document.getElementById('createLinkBtn');
 const shortLinkInputEl = document.getElementById('shortLinkInput');
 const originalLinkInputEl = document.getElementById('originalLinkInput');
 
+const host = window.location;
+const apiUrl = host.includes('localhost') ? 'http://localhost:3000' : 'http://lnk.bilchuck.me';
+
 const createShortLink = async () => {
   const { value: shortLink } = shortLinkInputEl;
   const { value: originalLink } = originalLinkInputEl;
   try {
-    const response = await fetch('http://localhost:3000/link', {
+    const response = await fetch(`${apiUrl}/link`, {
       method: 'POST',
       headers: {
         "Content-type": "application/json"
@@ -19,7 +22,7 @@ const createShortLink = async () => {
     if (response.status > 399) {
       throw new Error((await response.json()).message || 'Unexpected error!');
     }
-    showSuccessMessage(`http://localhost:3000/link/${shortLink}`);
+    showSuccessMessage(`${apiUrl}/link/${shortLink}`);
   } catch (error) {
     alert(`Error: ${error.message}`);
   }

@@ -6,18 +6,19 @@ services:
     volumes:
       - ./packages/frontend/public:/var/www/html
       - ./packages/frontend/nginx/conf.d/:/etc/nginx/conf.d/
-    ports:
-      - 4200:80
+    networks:
+      - web
+    labels:
+      - "traefik.http.routers.my-site.rule=Host(`link-shortener.bilchuck.me`)"
+      - "traefik.protocol=http"
+      - "traefik.enable=true"
+      - traefik.http.services.my-site.loadbalancer.server.port=4200
 
   api-service:
     build: ./packages/api/
     volumes:
       - ./packages/api:/usr/app
       - /usr/app/node_modules
-    command: yarn start:debug
-    ports:
-      - 3000:3000
-      - 9229:9229 # for local debug
     environment:
       DB_HOST: postgres-db
       DB_NAME: link-shortener
@@ -25,6 +26,13 @@ services:
       DB_PASS: guest
       DB_PORT: 5432
       DB_MIGRATIONS_RUN: 'true'
+    networks:
+      - web
+    labels:
+      - "traefik.http.routers.link-shortener-api.rule=Host(`lnk.bilchuck.me`)"
+      - "traefik.protocol=http"
+      - "traefik.enable=true"
+      - traefik.http.services.link-shortener-api.loadbalancer.server.port=3000
 
   postgres-db:
     image: postgres:12
@@ -35,13 +43,9 @@ services:
       POSTGRES_PASSWORD: guest
       POSTGRES_DB: link-shortener
 
-  postgres-db-adminer:
-    image: adminer
-    ports:
-      - 8080:8080
-    environment:
-      ADMINER_DEFAULT_SERVER: 'postgres-db'
-      ADMINER_DESIGN: 'nette'
-
 volumes:
   link-shortener__postgres:
+
+networks:
+  web:
+    external: true
