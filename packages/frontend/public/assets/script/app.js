@@ -3,7 +3,7 @@ const shortLinkInputEl = document.getElementById('shortLinkInput');
 const originalLinkInputEl = document.getElementById('originalLinkInput');
 const apiUrlPreviewEl = document.getElementById('apiUrlPreview');
 
-const host = window.location;
+const host = window.location.href;
 const apiUrl = host.includes('localhost') ? 'http://localhost:3000' : 'http://lnk.bilchuck.me';
 
 apiUrlPreviewEl.innerText = `${apiUrl}/link/`
