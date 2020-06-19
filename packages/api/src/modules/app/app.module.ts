@@ -12,7 +12,11 @@ import { LinkModule } from '../link/link.module';
       load: [database, app],
     }),
     TypeOrmModule.forRootAsync({
-      useFactory: (config: ConfigService) => ({
+      useFactory: (config: ConfigService) => {
+        console.log(`
+          config.get<boolean>('database.runMigration') => 
+        `, config.get<boolean>('database.runMigration'));
+        return {
         type: 'postgres',
         host: config.get<string>('database.host'),
         port: 5432,
@@ -20,9 +24,10 @@ import { LinkModule } from '../link/link.module';
         password: config.get<string>('database.pass'),
         database: config.get<string>('database.name'),
         entities: ["**/*.entity{.ts,.js}"],
-        migrations: ['../../migrations/**/*{.ts,.js}'],
-        migrationsRun: process.env.DB_MIGRATIONS_RUN === 'true',
-      }),
+        migrations: ['dist/migrations/**/*{.ts,.js}'],
+        migrationsRun: config.get<boolean>('database.runMigration'),
+        logging: 'all',
+      }},
       imports: [ConfigModule],
       inject: [ConfigService],
     }),
