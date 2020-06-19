@@ -12,7 +12,7 @@ services:
       - "traefik.http.routers.link-shortener-fe.rule=Host(`link-shortener.bilchuck.me`)"
       - "traefik.protocol=http"
       - "traefik.enable=true"
-      - traefik.http.services.link-shortener-fe.loadbalancer.server.port=80
+      - "traefik.http.services.link-shortener-fe.loadbalancer.server.port=80"
 
   api-service:
     build: ./packages/api/
@@ -33,7 +33,7 @@ services:
       - "traefik.http.routers.link-shortener-api.rule=Host(`lnk.bilchuck.me`)"
       - "traefik.protocol=http"
       - "traefik.enable=true"
-      - traefik.http.services.link-shortener-api.loadbalancer.server.port=3000
+      - "traefik.http.services.link-shortener-api.loadbalancer.server.port=3000"
 
   postgres-db:
     image: postgres:12
