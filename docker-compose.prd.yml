@@ -9,10 +9,10 @@ services:
     networks:
       - web
     labels:
-      - "traefik.http.routers.my-site.rule=Host(`link-shortener.bilchuck.me`)"
+      - "traefik.http.routers.link-shortener-fe.rule=Host(`link-shortener.bilchuck.me`)"
       - "traefik.protocol=http"
       - "traefik.enable=true"
-      - traefik.http.services.my-site.loadbalancer.server.port=4200
+      - traefik.http.services.link-shortener-fe.loadbalancer.server.port=4200
 
   api-service:
     build: ./packages/api/
